@@ -4,20 +4,22 @@
 import os
 import csv
 
-
 # Tell the program where the input and output files are located
 budgetdata_csv = os.path.join('Resources', 'budget_data.csv')
-PyBank_output = os.path.join('..', 'Analysis', 'PyBank_output.txt')
+#PyBank_output = os.path.join('..', 'Analysis', 'PyBank_output.txt')
 
-# These are the lists that will store data for analysis
-# NEW THOUGHTS - define a FUNCTION (give it a name) and assign variables and values (like these)
-# NEW THOUGHTS - the functions name could be "BankPL_analysis"
-# NEW THOUGHTS - sample calc for the fuction could be "Number_of_months = str(months + 1)"
-# NEW THOUGHTS - sample calc "Total_PL = str(profits_losses)"
+# List for storing data
 months = []
 profits_losses = []
+changes = []
 
+# Variables for calculations
 
+change_from_prior = 0
+total_change_profits_losses = 0 
+initial_profits_losses = 0
+average_monthly_change = 0
+total_profits_losses = 0
 
 # Open and read the csv file
 with open(budgetdata_csv, newline='') as csvfile:
@@ -25,60 +27,45 @@ with open(budgetdata_csv, newline='') as csvfile:
     #Split the data on commas
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
-    #print(header)
-       
+          
     for row in csvreader:
         # What are the total number of months in the dataset?
-        month = str(row[0])
-        months.append(month)
-
-        # What is net total of Profit/Losses?
-        profit_loss = int(row[1])
-        profits_losses.append(profit_loss)
-      
-        # Determine the average change. Will need to perform a calculation
-        #   (e.g. subtract row 2 from row1, subtract row 3 from row 2) on the prior row
-        #   and capture the output in a new list "change" that can be evaluated
-        #   to determine the greatest increase and decrease
-
-        # This is the placeholder for average change
-        avg_change = []
-
-        # This is the list that will hold the changes 
-        changes = []
-
-        # Create the variables needed for the loop calculations
-        x = 1, y = 0
-
-
-
-      
-        #changes = {(profit_losses[row])
-        #changes.append(change)]
+        months.append(row[0])
         
+        # What is net total of Profit/Losses?
+        profits_losses.append(row[1])
+        total_profits_losses = total_profits_losses + int(row[1])
+                   
+        # Calculate the month to month change and capture the change for use later
+        final_profits_losses = int(row[1])
+        change_from_prior = final_profits_losses - initial_profits_losses
+           
+        # Capture the average monthly changes 
+        changes.append(change_from_prior)
 
+        total_change_profits_losses = total_change_profits_losses + change_from_prior
+        initial_profits_losses = final_profits_losses
 
+        # Calculate the average monthly change in profits/losses
+        average_monthly_change = (total_change_profits_losses/len(months))
 
+        # Find the greatest increase and decrease in profits
+        greatest_increase_profits = max(changes)
+        greatest_decrease_profits = min(changes)
 
-
-        # Find the greatest increase in profits for Feb 2012
-
-        #profit_losses.max(profit_loss) = increase
+        increase_date = months[changes.index(greatest_increase_profits)]
+        decrease_date = months[changes.index(greatest_decrease_profits)]
        
         # Find the greatest decrease in profits for Sep 2013
         #profit_losses.min(profit_loss) = decrease
 
 
-
-
     print(f'Total Months: ', len(months))
-    print(f'Total: $', sum(profits_losses)) 
-    #print(f'Greatest Increase in Profits:' ()
-    # Additional calcs testing out statiscal functions available for printing
-    print(f'Min P/L: $', min(profits_losses))
-    print(f'Max P/L: $', max(profits_losses))
-    #print(f'P/L Average: $', statistics.mean(profits_losses))
-    
+    print(f'Total: $', (total_profits_losses)) 
+    print(f'Average Change: $', round(average_monthly_change))
+    print(f'Greatest Increase in Profits: ' + str(increase_date) + ' ($'+ str(greatest_increase_profits) + ')')
+    print(f'Greatest Decrease in Profits: ' + str(decrease_date) + " ($" + str(greatest_decrease_profits)+ ')')
+      
 
 
 # Open the output file
