@@ -70,10 +70,7 @@ with open(budgetdata_csv, newline='') as csvfile:
 
 # Open the output file
 with open(PyBank_output, "w") as datafile:
-    
-    #Write to the output file
-    writer = csv.writer(datafile)
-
+ 
     datafile.write('\nFinancial Analysis\n')
     datafile.write('----------------------------------------------\n')
     datafile.write('Total Months:   ' + str(len(months)) + '\n')
@@ -81,4 +78,4 @@ with open(PyBank_output, "w") as datafile:
     datafile.write('Average Change: $' + str(int(average_monthly_change)) + '\n')
     datafile.write('Greatest Increase in Profits: ' + str(increase_date) + ' ($'+ str(greatest_increase_profits) + ')\n')
     datafile.write('Greatest Decrease in Profits: ' + str(decrease_date) + " ($" + str(greatest_decrease_profits)+ ')\n')
-        
+    datafile.write('----------------------------------------------\n')   
