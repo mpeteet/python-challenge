@@ -6,7 +6,7 @@ import csv
 
 # Tell the program where the input and output files are located
 budgetdata_csv = os.path.join('Resources', 'budget_data.csv')
-#PyBank_output = os.path.join('..', 'Analysis', 'PyBank_output.txt')
+PyBank_output = os.path.join('Analysis', 'PyBank_output.txt')
 
 # List for storing data
 months = []
@@ -59,20 +59,26 @@ with open(budgetdata_csv, newline='') as csvfile:
         # Find the greatest decrease in profits for Sep 2013
         #profit_losses.min(profit_loss) = decrease
 
-
-    print(f'Total Months: ', len(months))
-    print(f'Total: $', (total_profits_losses)) 
+    print(f'\nFinancial Analysis')
+    print(f'----------------------------------------------')
+    print(f'Total Months:  ', len(months))
+    print(f'Total:   ' +'$' +str(total_profits_losses)) 
     print(f'Average Change: $', round(average_monthly_change))
     print(f'Greatest Increase in Profits: ' + str(increase_date) + ' ($'+ str(greatest_increase_profits) + ')')
     print(f'Greatest Decrease in Profits: ' + str(decrease_date) + " ($" + str(greatest_decrease_profits)+ ')')
       
 
-
 # Open the output file
-#with open(PyBank_output, "w", newline="") as datafile
-
+with open(PyBank_output, "w") as datafile:
+    
     #Write to the output file
-    #writer = csv.writer(datafile)
+    writer = csv.writer(datafile)
 
+    datafile.write('\nFinancial Analysis\n')
+    datafile.write('----------------------------------------------\n')
+    datafile.write('Total Months:   ' + str(len(months)) + '\n')
+    datafile.write('Total:   ' +'$' +str(total_profits_losses) + '\n') 
+    datafile.write('Average Change: $' + str(int(average_monthly_change)) + '\n')
+    datafile.write('Greatest Increase in Profits: ' + str(increase_date) + ' ($'+ str(greatest_increase_profits) + ')\n')
+    datafile.write('Greatest Decrease in Profits: ' + str(decrease_date) + " ($" + str(greatest_decrease_profits)+ ')\n')
         
-       
