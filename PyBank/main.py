@@ -8,13 +8,10 @@ import csv
 budgetdata_csv = os.path.join('Resources', 'budget_data.csv')
 PyBank_output = os.path.join('Analysis', 'PyBank_output.txt')
 
-# List for storing data
+# Create the lists and variables for data collection and calculation
 months = []
 profits_losses = []
 changes = []
-
-# Variables for calculations
-
 change_from_prior = 0
 total_change_profits_losses = 0 
 initial_profits_losses = 0
@@ -24,7 +21,7 @@ total_profits_losses = 0
 # Open and read the csv file
 with open(budgetdata_csv, newline='') as csvfile:
 
-    #Split the data on commas
+    #Split the data on commas and read the header
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
           
@@ -47,35 +44,32 @@ with open(budgetdata_csv, newline='') as csvfile:
         initial_profits_losses = final_profits_losses
 
         # Calculate the average monthly change in profits/losses
-        average_monthly_change = (total_change_profits_losses/len(months))
+        #average_monthly_change = (total_change_profits_losses/len(months))
+        average_monthly_change = (total_change_profits_losses/len(profits_losses))
 
         # Find the greatest increase and decrease in profits
         greatest_increase_profits = max(changes)
         greatest_decrease_profits = min(changes)
-
+       
         increase_date = months[changes.index(greatest_increase_profits)]
         decrease_date = months[changes.index(greatest_decrease_profits)]
-       
-        # Find the greatest decrease in profits for Sep 2013
-        #profit_losses.min(profit_loss) = decrease
 
+    # Display the analysis results   
     print(f'\nFinancial Analysis')
     print(f'----------------------------------------------')
-    print(f'Total Months:  ', len(months))
-    print(f'Total:   ' +'$' +str(total_profits_losses)) 
-    print(f'Average Change: $', round(average_monthly_change))
-    print(f'Greatest Increase in Profits: ' + str(increase_date) + ' ($'+ str(greatest_increase_profits) + ')')
-    print(f'Greatest Decrease in Profits: ' + str(decrease_date) + " ($" + str(greatest_decrease_profits)+ ')')
-      
+    print(f'Total Months:  {len(months)}')
+    print(f'Total:  ${str(total_profits_losses)}') 
+    print(f'Average Change: ${str(round(average_monthly_change,2))}')
+    print(f'Greatest Increase in Profits: {str(increase_date)} (${str(greatest_increase_profits)})')
+    print(f'Greatest Decrease in Profits: {str(decrease_date)} (${str(greatest_decrease_profits)})')
 
-# Open the output file
+# Save the results of the analysis to an output file
 with open(PyBank_output, "w") as datafile:
- 
-    datafile.write('\nFinancial Analysis\n')
+    datafile.write('Financial Analysis\n')
     datafile.write('----------------------------------------------\n')
-    datafile.write('Total Months:   ' + str(len(months)) + '\n')
-    datafile.write('Total:   ' +'$' +str(total_profits_losses) + '\n') 
-    datafile.write('Average Change: $' + str(int(average_monthly_change)) + '\n')
-    datafile.write('Greatest Increase in Profits: ' + str(increase_date) + ' ($'+ str(greatest_increase_profits) + ')\n')
-    datafile.write('Greatest Decrease in Profits: ' + str(decrease_date) + " ($" + str(greatest_decrease_profits)+ ')\n')
+    datafile.write(f'Total Months:   {len(months)}\n')
+    datafile.write(f'Total:  ${str(total_profits_losses)}\n') 
+    datafile.write(f'Average Change: ${str(round(average_monthly_change,2))}\n')
+    datafile.write(f'Greatest Increase in Profits: {str(increase_date)} (${str(greatest_increase_profits)})\n')
+    datafile.write(f'Greatest Decrease in Profits: {str(decrease_date)} (${str(greatest_decrease_profits)})\n')
     datafile.write('----------------------------------------------\n')   

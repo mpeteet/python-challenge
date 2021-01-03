@@ -10,18 +10,17 @@ election_csv = os.path.join('Resources', 'election_data.csv')
 PyPoll_output = os.path.join('Analysis', 'PyPoll_output.txt')
 
 
-# Create the lists for data collection and calculation
+# Create the lists and variables for data collection and calculation
 candidates = []         # the list of candidates in the vote
 number_votes = []       # number of votes each candidate got
-vote_total = 0         # will hold the total number of votes cast
+vote_total = 0          # will hold the total number of votes cast
 votes_percentage = []   # the percentage of the vote the candidate received, will be used to determine the winner
      
-
 
 # Open and read the csv file
 with open(election_csv, newline='') as csvfile:
 
-    #Split the data by commas
+    #Split the data by commas and read the header
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
     
@@ -62,9 +61,7 @@ print(f'---------------------------')
 print(f'Winner: {election_winner}')
 print(f'---------------------------')
 
-
-
-# Open the output file
+# Print the election results analysis to the output file
 with open(PyPoll_output, "w") as datafile:
     datafile.write('Election Results\n')  
     datafile.write('---------------------------\n')
@@ -76,4 +73,3 @@ with open(PyPoll_output, "w") as datafile:
     datafile.write('---------------------------\n')
     datafile.write(f'Winner: {election_winner}\n')
     datafile.write('---------------------------\n')
-    
